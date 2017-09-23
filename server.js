@@ -12,35 +12,35 @@ app.get('/', (req, res) => {
 });
 
 app.post('/subscribe', (req, res) => {
-  if(
+  if (
     req.body.captcha === undefined ||
     req.body.captcha === '' ||
     req.body.captcha === null
-  ){
-    return res.json({"success": false, "msg":"Please select captcha"});
+  ) {
+    return res.json({"success": false, "msg": "please select captcha"});
   }
 
-  // Secret Key
-  const secretKey = '6LdpvDEUAAAAAHszsgB_nnal29BIKDsxwAqEbZzU';
+  // secrect key
+  const secretKey = '6Ldh1DEUAAAAACBIyiLhT4dqVDxCFkEKxAhkHrjb';
 
-  // Verify URL
+  //verify URL
   const verifyUrl = `https://google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body.captcha}&remoteip=${req.connection.remoteAddress}`;
 
-  // Make Request To VerifyURL
+  // Make request to verifyUrl
   request(verifyUrl, (err, response, body) => {
     body = JSON.parse(body);
     console.log(body);
 
-    // If Not Successful
-    if(body.success !== undefined && !body.success){
-      return res.json({"success": false, "msg":"Failed captcha verification"});
+    //if not successfull
+    if (body.success !== undefined && !body.success) {
+      return res.json({"success": false, "msg": "Failed captcha verification"});
     }
 
-    //If Successful
-    return res.json({"success": true, "msg":"Captcha passed"});
+    // if successfull
+    return res.json({"success": true, "msg": "Captcha Passed"});
   });
 });
 
 app.listen(3000, () => {
-  console.log('Server started on port 3000');
+  console.log('server started on port 3000');
 });
